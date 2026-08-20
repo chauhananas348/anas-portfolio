@@ -1,4 +1,4 @@
-Anas Chauhan — Portfoli
+Anas Chauhan — Portfolio
 
 Personal portfolio showcasing my work in technology, web development, and music.
 
