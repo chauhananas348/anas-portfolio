@@ -11,15 +11,24 @@ import { ProjectModal } from './components/ProjectModal';
 import { MusicPlayerModal } from './components/MusicPlayerModal';
 import { CodeSoundCoreCanvas } from './components/3d/CodeSoundCoreCanvas';
 import { Project } from './types';
+import SectionRail from './components/SectionRail';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [musicModalOpen, setMusicModalOpen] = useState(false);
 
-  // IntersectionObserver for lightweight ScrollSpy (no scroll listeners or re-renders)
+  // ScrollSpy for the top navigation
   useEffect(() => {
-    const sections = ['home', 'about', 'skills', 'projects', 'music', 'contact'];
+    const sections = [
+      'home',
+      'about',
+      'skills',
+      'projects',
+      'music',
+      'contact',
+    ];
+
     const observerOptions = {
       root: null,
       rootMargin: '-20% 0px -40% 0px',
@@ -36,7 +45,10 @@ export default function App() {
 
     sections.forEach((id) => {
       const el = document.getElementById(id);
-      if (el) observer.observe(el);
+
+      if (el) {
+        observer.observe(el);
+      }
     });
 
     return () => observer.disconnect();
@@ -44,18 +56,25 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F4EFE6] text-[#1C1B1A] font-body selection:bg-[#1C1B1A] selection:text-white flex flex-col antialiased relative">
-      {/* Signature 3D Interactive "Code × Sound Core" Background Canvas */}
+
+      {/* Signature 3D Interactive "Code × Sound Core" Background */}
       <CodeSoundCoreCanvas />
 
       {/* Top Navigation */}
       <Navbar activeSection={activeSection} />
 
-      {/* Main Content Sections Layered Above 3D Background */}
-      <main className="relative z-10 flex-1">
-        {/* Hero Section */}
-        <Hero onOpenMusicModal={() => setMusicModalOpen(true)} />
+      {/* Left Section Navigation Rail */}
+      <SectionRail />
 
-        {/* About Section - Duality of Craft */}
+      {/* Main Content Sections */}
+      <main className="relative z-10 flex-1">
+
+        {/* Hero Section */}
+        <Hero
+          onOpenMusicModal={() => setMusicModalOpen(true)}
+        />
+
+        {/* About Section */}
         <About />
 
         {/* Technical Arsenal Section */}
@@ -67,11 +86,12 @@ export default function App() {
           onOpenMusicModal={() => setMusicModalOpen(true)}
         />
 
-        {/* Music & Sound Design Section */}
+        {/* Music Section */}
         <MusicSection />
 
         {/* Contact Section */}
         <ContactSection />
+
       </main>
 
       {/* Footer */}
@@ -88,7 +108,7 @@ export default function App() {
         isOpen={musicModalOpen}
         onClose={() => setMusicModalOpen(false)}
       />
+
     </div>
   );
 }
-
